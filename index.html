@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>付款界面</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        span{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div>您目前的余额为：<span id="amout">100</span></div>
+    <button>打钱</button>
+    <script>
+        $("button").on("click", function(){
+            // let number = $("span#amout").text()
+            // amout.innerText = number - 1
+            // console.log(number)
+            let xxx = document.createElement('script')
+            xxx.src = "http://baidu.com/pay"
+            document.body.appendChild(xxx)
+            xxx.onload = function(e) {
+                e.currentTarget.remove()
+            }
+            xxx.onerror = function() {
+                alert('fail')
+            }
+        })
+    </script>
+</body>
+</html>
