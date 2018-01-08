@@ -13,21 +13,27 @@
     </style>
 </head>
 <body>
-    <div>您目前的余额为：<span id="amout">100</span></div>
+    <div>您目前的余额为：<span id="amount">100</span></div>
     <button>打钱</button>
     <script>
         $("button").on("click", function(){
-            // let number = $("span#amout").text()
-            // amout.innerText = number - 1
-            // console.log(number)
+            let functionName = 'alaluckysong' + parseInt(Math.random()*10000, 10)
+            window[functionName] = function(result){
+                if(result === 'success'){
+                    var number = amount.innerText
+                    amount.innerText = number - 1
+                }
+            }
             let xxx = document.createElement('script')
-            xxx.src = "http://baidu.com/pay"
+            xxx.src = "http://127.0.0.1:8081/pay?callbackName="+functionName
             document.body.appendChild(xxx)
             xxx.onload = function(e) {
                 e.currentTarget.remove()
+                delete window[functionName]
             }
             xxx.onerror = function() {
                 alert('fail')
+                delete window[functionName]
             }
         })
     </script>

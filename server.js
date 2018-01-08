@@ -12,7 +12,11 @@ var server = http.createServer(function(request, response){
   var parsedUrl = url.parse(request.url, true)
   var path = request.url 
   var query = ''
-  if(path.indexOf('?') >= 0){ query = path.substring(path.indexOf('?')) }
+  if(path.indexOf('?') >= 0){ 
+    query = path.substring(path.indexOf('?'))
+    path = path.substring(0, path.indexOf('?')) //截取'?'前path
+    
+  }
   var pathNoQuery = parsedUrl.pathname
   var queryObject = parsedUrl.query
   var method = request.method
@@ -34,7 +38,7 @@ var server = http.createServer(function(request, response){
   console.log('方方说：得到 HTTP 路径\n' + path)
   
 
-  if(path == '/'){
+  if(path === '/'){
     response.setHeader('Content-type', 'text/html; charset=utf-8')
     response.write('<!DOCTYPE>\n<html>' +
     '<head><link rel="stylesheet" href="/style.css">'+
@@ -44,15 +48,22 @@ var server = http.createServer(function(request, response){
     '</body></html>')
     response.end()
 
-  }else if(path == '/style.css'){
+  }else if(path === '/style.css'){
     response.setHeader('Content-type', 'text/css; charset=utf-8')
     response.write('body{background-color: #ddd;} h1{color: yellow;}')
     response.end()
-  }else if(path == '/main.js'){
+  }else if(path === '/main.js'){
     response.setHeader('Content-type', 'text/javascript; charset=utf-8')
     response.write('alert("这是js执行的")')
     response.end()
   
+  }else if(path === '/pay'){
+    var amount = fs.readFileSync('./db', 'utf8')
+    var newAmount = amount - -1
+    response.setHeader('Content-type', 'application/javascript')
+    response.statusCode = 200
+    response.write(`${queryObject.callbackName}.call(undefined, 'success')`)
+    response.end()
   }else{
     response.statusCode = 404
     response.end()
